@@ -9,13 +9,15 @@ export class KafkaController {
     constructor(private readonly kafkaProducerService: KafkaProducerService) { }
 
     @MessagePattern('hello-topic')
-    handleHelloTopic(@Payload() message: string) {
+    async handleHelloTopic(@Payload() message: string) {
         console.log('Consumed: hello-topic', message);
+        await new Promise(resolve => setTimeout(resolve, 150));  // suppose db delay average 150ms
     }
 
     @MessagePattern('hello-second-topic')
-    handleHelloSecondTopic(@Payload() message: string) {
+    async handleHelloSecondTopic(@Payload() message: string) {
         console.log('Consumed: hello-second-topic', message);
+        await new Promise(resolve => setTimeout(resolve, 150));  // suppose db delay average 150ms
     }
 
     @Post('send')
